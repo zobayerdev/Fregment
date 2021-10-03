@@ -2,6 +2,9 @@ package com.example.fregment;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -13,12 +16,16 @@ public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
+
+        replaceFragment(new HomeFragment());
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -27,21 +34,28 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()){
 
                     case R.id.nav_home:
-                        Toast.makeText(MainActivity.this, "Home Clicked", Toast.LENGTH_SHORT).show();
+                        replaceFragment(new HomeFragment());
                         break;
                     case R.id.nav_cart:
-                        Toast.makeText(MainActivity.this, "Cart Clicked", Toast.LENGTH_SHORT).show();
+                        replaceFragment(new CartFragment());
                         break;
                     case R.id.nav_add:
-                        Toast.makeText(MainActivity.this, "Add Clicked", Toast.LENGTH_SHORT).show();
+                        replaceFragment(new AddFragment());
                         break;
                     case R.id.nav_account:
-                        Toast.makeText(MainActivity.this, "Account Clicked", Toast.LENGTH_SHORT).show();
+                        replaceFragment(new AccountFragment());
                         break;
                 }
 
                 return true;
             }
         });
+    }
+
+    private void replaceFragment(Fragment fragment) {
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout,fragment);
+        fragmentTransaction.commit();
     }
 }
